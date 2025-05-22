@@ -1,0 +1,90 @@
+CREATE DATABASE estacionamento;
+USE estacionamento;
+
+CREATE TABLE cliente (
+id_cliente INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR (45),
+dt_nascimento DATE,
+PRIMARY KEY (id_cliente)
+);
+
+CREATE TABLE categoria (
+id_categoria INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR (45),
+descricao VARCHAR (45),
+PRIMARY KEY (id_categoria)
+);
+
+CREATE TABLE veiculo (
+id_veiculo INT NOT NULL AUTO_INCREMENT,
+placa VARCHAR(8),
+cor VARCHAR(20),
+cliente_id INT,
+categoria_id INT,
+PRIMARY KEY (id_veiculo),
+FOREIGN KEY (cliente_id) REFERENCES cliente(id_cliente),
+FOREIGN KEY (categoria_id) REFERENCES categoria (id_categoria)
+);
+
+CREATE TABLE estacionamento (
+id_estacionamento INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR (45),
+capacidade INT,
+dt_entrada DATE,
+dt_saida DATE,
+hs_entrada TIME,
+hs_saida TIME,
+veiculo_id INT,
+PRIMARY KEY (id_estacionamento),
+FOREIGN KEY (veiculo_id) REFERENCES veiculo (id_veiculo)
+);
+
+INSERT INTO cliente (id_cliente, nome, dt_nascimento) VALUES
+(1, 'Joao', '1999-12-01'),
+(2, 'Maria', '2000-03-30'),
+(3, 'Pedro', '1980-07-01');
+
+INSERT INTO categoria (id_categoria, nome, descricao) VALUES
+(1, 'Volkswagem','flex'),
+(2, 'Renault', 'elétrico'),
+(3, 'Mistubishi', 'diesel');
+
+INSERT INTO veiculo (id_veiculo, placa, cor, cliente_id, categoria_id) VALUES
+(1,'KSJ-6666','preto',2,2),
+(2,'PFD-2874','rosa',1,2),
+(3,'KKK-9684','bege',3,1),
+(4,'BEG-8363','azul',3,3),
+(5,'QMG-7170','marrom',1,1);
+
+INSERT INTO estacionamento (id_estacionamento, nome, capacidade, dt_entrada, dt_saida, hs_entrada, hs_saida, veiculo_id) VALUES 
+(1,'A3',10,'2024-12-17','2024-12-18','13:45:21','14:45:21',1),
+(2,'G1',15,'2025-03-13','2025-03-17','10:12:34','11:10:08',2),
+(3,'D2',09,'2025-01-26','2025-01-29','08:02:55','16:29:01',3);
+
+
+SELECT*FROM veiculo
+JOIN categoria 
+ON categoria.id_categoria = veiculo.categoria_id
+JOIN cliente ON cliente.id_cliente = veiculo.cliente_id;
+
+SELECT* FROM veiculo
+LEFT JOIN cliente ON cliente.id_cliente = veiculo.cliente_id;
+
+SELECT*FROM veiculo
+RIGHT OUTER JOIN categoria ON categoria.id_categoria = veiculo.categoria_id;
+
+SELECT *FROM veiculo
+LEFT JOIN cliente ON cliente.id_cliente = veiculo.cliente_id
+UNION
+SELECT *FROM veiculo
+RIGHT JOIN cliente ON cliente.id_cliente = veiculo.cliente_id;
+
+SELECT id_veiculo, placa, cor, nome FROM veiculo
+JOIN cliente ON cliente.id_cliente = veiculo.cliente_id;
+
+DROP DATABASE estacionamento;
+
+SELECT nome, capacidade
+FROM estacionamento
+WHERE subsolo = 'SIM' AND especial = 'SIM' AND capacidade BETWEEN 20 AND 40
+ORDER BY capacidade ASC;

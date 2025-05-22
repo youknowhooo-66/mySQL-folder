@@ -1,0 +1,43 @@
+CREATE DATABASE motoristas;
+USE motoristas;
+
+CREATE TABLE motorista (
+id_motorista INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR (45),
+cpf BIGINT,
+data_nascimento DATE,
+PRIMARY KEY (id_motorista)
+);
+
+CREATE TABLE cliente (
+id_cliente INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR (45),
+cpf BIGINT,
+data_nascimento DATE,
+PRIMARY KEY (id_cliente)
+);
+
+CREATE TABLE veiculo (
+id INT NOT NULL AUTO_INCREMENT,
+placa VARCHAR(45),
+modelo VARCHAR(45),
+cor VARCHAR(45),
+ano INT,
+motorista_id INT,
+PRIMARY KEY (id),
+FOREIGN KEY (motorista_id) REFERENCES motorista(id_motorista)
+);
+
+CREATE TABLE viagem (
+id_viagem INT NOT NULL AUTO_INCREMENT,
+data_viagem DATE,
+horario TIME,
+valor DECIMAL(8,2),
+origem VARCHAR(45),
+destino VARCHAR(45),
+cliente_idcliente INT,
+motorista_idmotorista INT,
+PRIMARY KEY (id_viagem),
+FOREIGN KEY (cliente_idcliente) REFERENCES cliente (id_cliente),
+FOREIGN KEY (motorista_idmotorista) REFERENCES motorista (id_motorista)
+);

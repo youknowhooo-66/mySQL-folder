@@ -1,0 +1,116 @@
+CREATE DATABASE escola;
+USE escola;
+
+CREATE TABLE sala (
+id_sala INT NOT NULL AUTO_INCREMENT,
+nome_sala VARCHAR (45),
+capacidade_de_sala INT,
+PRIMARY KEY (id_sala)
+);
+
+CREATE TABLE turma (
+id_turma INT NOT NULL AUTO_INCREMENT,
+nome_turma VARCHAR (45),
+periodo VARCHAR (45),
+sala_idsala INT,
+PRIMARY KEY (id_turma),
+FOREIGN KEY (sala_idsala) REFERENCES sala(id_sala)
+);
+
+CREATE TABLE professor (
+id_professor INT NOT NULL AUTO_INCREMENT,
+nome_prof VARCHAR (45),
+formacao_prof VARCHAR (45),
+turma_idturma INT,
+PRIMARY KEY (id_professor),
+FOREIGN KEY (turma_idturma) REFERENCES turma(id_turma)
+);
+
+CREATE TABLE aulas (
+id_aulas INT NOT NULL AUTO_INCREMENT,
+nome_aula VARCHAR (45),
+professor_idprofessor INT,
+PRIMARY KEY (id_aulas),
+FOREIGN KEY (professor_idprofessor) REFERENCES professor(id_professor)
+);
+
+-----------------------------------------------------
+
+CREATE DATABASE peca;
+USE peca;
+
+CREATE TABLE fornecedor (
+id_fornecedor INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR (45),
+nacionalidade VARCHAR (45),
+PRIMARY KEY (id_fornecedor)
+);
+
+CREATE TABLE categoria (
+id_categoria INT NOT NULL AUTO_INCREMENT,
+descricao VARCHAR (45),
+PRIMARY KEY (id_categoria)
+);
+
+CREATE TABLE peca (
+id_peca INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR (45),
+peso INT,
+ano_fabricação YEAR,
+fornecedor_id INT,
+categoria_id INT,
+PRIMARY KEY (id_peca),
+FOREIGN KEY (fornecedor_id) REFERENCES fornecedor (id_fornecedor),
+FOREIGN KEY (categoria_id) REFERENCES categoria (id_categoria)
+);
+
+----------------------------------------------------------
+
+CREATE DATABASE projetos;
+USE projetos;
+
+CREATE TABLE empresa (
+codigo_empresa INT NOT NULL AUTO_INCREMENT,
+nome_empresa VARCHAR (45),
+endereco_empresa VARCHAR(45),
+PRIMARY KEY (codigo_empresa)
+);
+
+CREATE TABLE consultor (
+nome VARCHAR (45),
+documento_id INT NOT NULL AUTO_INCREMENT,
+especializacao VARCHAR (45),
+funcao VARCHAR(45),
+PRIMARY KEY (documento_id)
+);
+
+CREATE TABLE projeto (
+id_projeto INT NOT NULL AUTO_INCREMENT,
+data_inicio_projeto DATE,
+data_termino_projeto DATE,
+valor_projeto DECIMAL (8,2),
+id_empresa INT,
+id_consultor INT,
+PRIMARY KEY (id_projeto),
+FOREIGN KEY (id_empresa) REFERENCES empresa (codigo_empresa),
+FOREIGN KEY (id_consultor) REFERENCES consultor (documento_id)
+);
+
+CREATE TABLE departamento (
+id_departamento INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR (45),
+sigla VARCHAR (45),
+centro_custo INT,
+projeto_id INT,
+PRIMARY KEY (id_departamento),
+FOREIGN KEY (projeto_id) REFERENCES projeto (id_projeto)
+);
+
+CREATE TABLE unidade (
+id_unidade INT NOT NULL AUTO_INCREMENT,
+gerente_geral VARCHAR (45),
+supervisor VARCHAR (45),
+departamento_id INT,
+PRIMARY KEY (id_unidade),
+FOREIGN KEY (departamento_id) REFERENCES departamento (id_departamento)
+);

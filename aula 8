@@ -1,0 +1,56 @@
+CREATE DATABASE aula_oito;
+USE aula_oito;
+
+CREATE TABLE categorias (
+idCategoria INT NOT NULL AUTO_INCREMENT,
+categoria VARCHAR(45),
+PRIMARY KEY (idCategoria)
+);
+
+CREATE TABLE produtos (
+idProduto INT NOT NULL AUTO_INCREMENT,
+categoriaId INT NOT NULL,
+produto VARCHAR (45),
+preco DECIMAL (8,2),
+quantidade INT,
+descricao TEXT,
+foto TEXT,
+PRIMARY KEY (idProduto),
+FOREIGN KEY (categoriaId) REFERENCES categorias (idCategoria)
+);
+
+CREATE TABLE clientes (
+idCliente INT NOT NULL AUTO_INCREMENT,
+nome VARCHAR(100),
+email VARCHAR(100),
+senha CHAR(60),
+rua VARCHAR(100),
+cidade VARCHAR(45),
+bairro VARCHAR(45),
+cep CHAR(8),
+estado CHAR(2),
+PRIMARY KEY(idCliente)
+);
+
+CREATE TABLE pedidos (
+idPedido INT NOT NULL AUTO_INCREMENT,
+clienteId INT NOT NULL,
+status_ VARCHAR(20),
+sessao CHAR(36),
+PRIMARY KEY(idPedido),
+FOREIGN KEY (clienteId) REFERENCES clientes (idCliente)
+);
+
+CREATE TABLE pedidosItens (
+idItem INT NOT NULL AUTO_INCREMENT,
+pedidoId INT NOT NULL,
+produtoId INT NOT NULL,
+produto VARCHAR(45),
+quantidade INT,
+valor DECIMAL(8,2),
+subtotal DECIMAL (8,2),
+PRIMARY KEY (idItem),
+FOREIGN KEY (pedidoId) REFERENCES pedidos (idPedido),
+FOREIGN KEY (produtoId) REFERENCES produtos (idProduto)
+);
+

@@ -1,0 +1,36 @@
+CREATE DATABASE estacionamento_x;
+USE estacionamento_x;
+
+CREATE TABLE estacionamento (
+    id_estacionamento INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(100),
+    capacidade INT,
+    subsolo VARCHAR(3) CHECK (subsolo IN ('SIM', 'NAO')),
+    especial VARCHAR(3) CHECK (especial IN ('SIM', 'NAO')),
+    PRIMARY KEY (id_estacionamento)
+);
+
+INSERT INTO estacionamento (nome, capacidade, subsolo, especial)
+VALUES
+('Estacionamento B', 75, 'SIM', 'SIM'),
+('Estacionamento E', 90, 'SIM', 'SIM'),
+('Estacionamento H', 105, 'SIM', 'SIM'),
+('Estacionamento D', 30, 'SIM', 'SIM'),
+('Estacionamento E', 50, 'SIM', 'SIM');
+
+SELECT nome, capacidade
+FROM estacionamento
+WHERE subsolo = 'SIM' AND especial = 'SIM' AND capacidade BETWEEN 20 AND 40
+ORDER BY capacidade ASC;
+
+SELECT nome, capacidade
+FROM estacionamento
+WHERE capacidade >= 50 ORDER BY capacidade DESC;
+
+SELECT nome, capacidade
+FROM estacionamento
+WHERE capacidade >= 80 OR nome = 'Estacionamento B';
+
+SELECT nome, capacidade
+FROM estacionamento
+WHERE subsolo = 'SIM' AND especial = 'SIM';
